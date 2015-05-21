@@ -1,0 +1,902 @@
+<!DOCTYPE html/>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Clocks</title>
+        <style>
+            svg {
+              /*position: absolute;*/
+              top: 0;
+            }
+
+            .clockBody {
+                stroke-width: 2;
+                stroke: #000;
+                fill: #fff;
+            }
+
+            .hand {
+                stroke-width: 0;
+                stroke: #000;
+                fill: #000;
+            }
+
+            .pin {
+                fill: #000;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="fps">FPS: <span>?</span></div>
+        <script src="js/d3/d3.min.js"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            function getStyle(oElm, css3Prop){
+                var strValue = "";
+   
+                if(window.getComputedStyle){
+                    strValue = getComputedStyle(oElm).getPropertyValue(css3Prop);
+                }
+                //IE
+                else if (oElm.currentStyle){
+                    try {
+                        strValue = oElm.currentStyle[css3Prop];
+                    } catch (e) {}
+                }
+         
+                return strValue;
+            } 
+
+            function getStyleInfo(tagName, tagNamespace, id, className, properties) {
+                results = {};
+                var c = document.createElementNS(tagNamespace, tagName);
+                if(id) {c.setAttribute("id", id)};                
+                if(className){c.setAttribute("class", className)};
+                var bodyEle = document.getElementsByTagName("body")[0];
+                bodyEle.appendChild(c);
+                properties.forEach(function(e){
+                    results[e] = getStyle(c, e);
+                })
+                bodyEle.removeChild(c);
+                return results;
+            }
+
+            if (!String.prototype.format) {
+                String.prototype.format = function() {
+                    var str = this.toString();
+                    if (!arguments.length)
+                        return str;
+                    var args = typeof arguments[0],
+                        args = (("string" == args || "number" == args) ? arguments : arguments[0]);
+                    for (arg in args)
+                        str = str.replace(RegExp("\\{" + arg + "\\}", "gi"), args[arg]);
+                    return str;
+                }
+            }
+            //]]>
+        </script>
+        <script type="text/javascript">
+            //<![CDATA[
+            var rows = 12,
+                columns = 24;
+
+            var clockCount = rows * columns;
+            var handCount = clockCount * 2;
+
+            var clockRadius = 16;
+            var handWidth = 6;
+
+            var svgNS = "http://www.w3.org/2000/svg"
+
+            var clockStyleInfo = getStyleInfo("circle", svgNS, null, "clockBody", ["stroke-width"]);
+            var imgStrokeWidth = parseInt(clockStyleInfo["stroke-width"]);
+            var imgHalfStrokeWidth = imgStrokeWidth * 0.5;
+
+            var handStyleInfo = getStyleInfo("path", svgNS, null, "hand", ["stroke-width"]);
+            var handStrokeWidth = parseInt(handStyleInfo["stroke-width"]);            
+            var halfHandStrokeWidth = handStrokeWidth * 0.5;
+
+            var clockDiameter = clockRadius * 2.;
+
+            var halfHandWidth = handWidth * 0.5;
+            var quarterHandWidth = halfHandWidth * 0.5;
+
+            var imgWidth = clockDiameter + imgStrokeWidth,
+                imgHeight = clockDiameter + imgStrokeWidth,
+                imgRadius = clockRadius;            
+
+            var imgHalfWidth = imgWidth * 0.5,
+                imgHalfHeight = imgHeight * 0.5;
+
+
+            var width = imgWidth * columns,                
+                height = imgHeight * rows;        
+
+            var rng = d3.range(clockCount); 
+                        
+            var directions = {left: -1, right: 1, closest: 0};
+
+            function normalizeAngle(value) {
+                return value - Math.floor(value / 360.) * 360.
+            }            
+
+            function floatEq(a, b) {
+                return Math.abs(b-a) < Number.EPSILON;
+            }
+
+            //assume normalized angles
+            function getDirection(angle, target) {
+                var diff = target - angle;
+                var adiff = Math.abs(diff);
+                if(adiff < Number.EPSILON) {
+                    return undefined;
+                }   
+
+                if(target < angle) {
+                    return adiff < 180 ? directions.left : directions.right;
+                } else {
+                    return diff > 180 ? directions.left : directions.right;
+                }                
+            }
+
+            var hand_data = function(id, hand, startingAngle) {                                
+                var animating = false;
+                
+                this.id = id;
+                this.hand = hand;
+                this.cx = 0;
+                this.cy = 0;
+                this.angle = typeof(startingAngle) === 'undefined' ? 0 : startingAngle;
+                this.target = this.angle;
+                this.rate = 180;
+                this.direction = directions.closest;
+                this.isSpinning = false;
+                this.animCompleteCallback = null;
+                
+                Object.defineProperties(this, {
+                    "isAnimating": {
+                        "get": function(){ return animating; },
+                        "set": function(value){
+                            if(animating != value) {
+                                animating = value;
+                                if(animating == false && this.animCompleteCallback) {
+                                    this.animCompleteCallback(this);
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+
+            hand_data.prototype.update = function(dt) {
+                if(this.isSpinning) {
+                    this.isAnimating = true;
+                    if(this.direction == directions.closest) {
+                        this.direction = getDirection(this.angle, this.target) || directions.right;
+                    }
+                    if(this.direction == directions.left) {
+                        this.angle = normalizeAngle(this.angle - this.rate * dt);
+                    } else if(this.direction == directions.right) {
+                        this.angle = normalizeAngle(this.angle + this.rate * dt);
+                    }
+                } else {
+                    if(this.isAnimating || (this.angle != this.target)) {
+                        this.isAnimating = true;                        
+                        var na;
+                        var prediff = normalizeAngle(this.target-this.angle);
+                        if(this.direction == directions.closest) {
+                            var dir = getDirection(this.angle, this.target);
+                            if(dir === undefined) {                                
+                                na = this.target;                                
+                            } else {
+                                this.direction = dir;
+                            }
+                        } 
+                        if(this.direction == directions.left) {
+                            na = normalizeAngle(this.angle - this.rate * dt);                            
+                        } else if(this.direction == directions.right) {
+                            na = normalizeAngle(this.angle + this.rate * dt);                            
+                        }
+
+                        var nadiff = normalizeAngle(this.target - na);
+
+                        if(nadiff >= prediff) {
+                            this.angle = this.target;
+                            this.isAnimating = false;
+                        } else {
+                            this.angle = na;
+                        }                                        
+                    }
+                }
+            }
+
+
+            var hhand_data = rng.map(function(i){
+                return new hand_data(i, "h", 0);
+            })        
+
+            var mhand_data = rng.map(function(i){
+                return new hand_data(i, "m", 0);
+            })
+
+            var clk_data = rng.map(function(i){
+                var c = i%columns;
+                var r = Math.floor(i/columns);
+                var xloc = c*imgWidth;
+                var yloc = r*imgHeight;
+                var centerX = xloc + imgHalfWidth;
+                var centerY = yloc + imgHalfHeight;
+                hhand_data[i].cx = centerX;
+                hhand_data[i].cy = centerY;
+                mhand_data[i].cx = centerX;
+                mhand_data[i].cy = centerY;
+
+                return {
+                    id: i,
+                    x: xloc,
+                    y: yloc,
+                    cx: centerX,
+                    cy: centerY,
+                    r: imgRadius,
+                    hhand: hhand_data[i],
+                    mhand: mhand_data[i]
+                };
+            });             
+
+            var time0 = Date.now(),
+                time1;
+
+            var fps = d3.select("#fps span");
+
+            var svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);                
+
+            var circle = svg.selectAll("circle.clockBody")
+                .data(clk_data)
+                .enter();
+
+            circle.append("circle")
+                .classed("clockBody", true)                
+                .attr("cx", function(d) { return d.cx; })
+                .attr("cy", function(d) { return d.cy; })
+                .attr("r", function(d) { return d.r; });
+
+            var hhand, mhand
+
+            for(var i = 0; i < 2; i++)
+            {
+                var hclass =  i == 0 ? "hhand" : "mhand"               
+                var paths = circle.append("path")
+                                .classed({hclass: true, "hand": true})
+                                .attr("d", function(d) { 
+                                    len = d.r - halfHandWidth - halfHandStrokeWidth + 1;
+                                    p = "M{mv_x} {mv_y}v-{l}a{qhw} -{qhw} 0 0 1 {hw} 0v{l}a-{qhw} {qhw} 0 0 1 -{hw} 0z".format({
+                                            mv_x: (d.cx - halfHandWidth).toString(), 
+                                            mv_y: d.cy.toString(),
+                                            l: len.toString(),
+                                            qhw: quarterHandWidth.toString(),
+                                            hw: handWidth.toString()
+                                        });                    
+                                    return p;
+                                    }
+                                );
+                if(i==0) {
+                    hhand = paths.data(hhand_data)
+                } else {
+                    mhand = paths.data(mhand_data);
+                }
+            }
+                
+            circle.append("circle")
+                .classed("pin", true)          
+                .attr("cx", function(d) { return d.cx; })
+                .attr("cy", function(d) { return d.cy; })
+                .attr("r", halfHandWidth);    
+
+            
+            function fisher_yates(items) {
+                var r = items.slice(0);
+                var l = items.length;                
+                for(var i=0; i < l; ++i) {
+                    var j = Math.floor(Math.random() * l);
+                    var t = r[i];
+                    r[i] = r[j];
+                    r[j] = t;
+                }
+                return r;
+            }
+
+            var positions = {
+                uu: [0, 0], rr: [90, 90], dd: [180, 180], ll: [270, 270],
+                urur: [45,45], drdr: [135, 135], dldl: [225, 225], ulul: [315, 315],
+                ud: [0, 180], du: [180, 0], rl: [90, 270], lr: [270, 90],
+                urdl: [45, 225], dlur: [225, 45], drul: [135, 315], uldr: [315, 135],
+                ur: [0, 90], ru: [90, 0], rd: [90, 180], dr: [180, 90],
+                dl: [180, 270], ld: [270, 180], lu: [270, 0], ul: [0, 270]
+            };    
+
+            var positionKeys = Object.keys(positions);
+
+            var numberPositions = (function(){
+                var lr = positions.lr,
+                    rl = positions.rl,
+                    ud = positions.ud,
+                    du = positions.du,
+                    ur = positions.ur,
+                    ru = positions.ru,
+                    rd = positions.rd,
+                    dr = positions.dr,
+                    dl = positions.dl,
+                    ld = positions.ld,
+                    lu = positions.lu,
+                    ul = positions.ul,
+                    rr = positions.rr,
+                    ll = positions.ll,
+                    uu = positions.uu,
+                    dd = positions.dd;
+
+                return [
+
+                    // 0
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ud, rd, lr, ld, ud],
+                        [ud, ud, dd, ud, ud],
+                        [ud, ud, uu, ud, ud],
+                        [ud, ur, lr, lu, ud],
+                        [ur, lr, lr, lr, lu],
+                    ],
+
+                    // 1
+                    [
+                        [lr, lr, ll, rd, ld],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ur, lu],
+                    ],
+
+                    // 2
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ur, lr, lr, ld, ud],
+                        [rd, lr, lr, lu, ud],
+                        [ud, rd, lr, lr, lu],
+                        [ud, ur, lr, lr, ld],
+                        [ur, lr, lr, lr, lu],
+                    ],
+
+                    // 3
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ur, lr, lr, ld, ud],
+                        [rd, lr, lr, lu, ud],
+                        [ur, lr, lr, ld, ud],
+                        [rd, lr, lr, lu, ud],
+                        [ur, lr, lr, lr, lu],
+                    ], 
+
+                    // 4
+                    [
+                        [ll, rd, ld, rd, ld],
+                        [ll, ud, ud, ud, ud],
+                        [ll, ud, ur, lu, ud],
+                        [ll, ur, lr, ld, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ur, lu],
+                    ],
+
+                    // 5
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ud, rd, lr, lr, lu],
+                        [ud, ur, lr, lr, ld],
+                        [ur, lr, lr, ld, ud],
+                        [rd, lr, lr, lu, ud],
+                        [ur, lr, lr, lr, lu],
+                    ],
+
+                    // 6
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ud, rd, lr, lr, lu],
+                        [ud, ur, lr, lr, ld],
+                        [ud, rd, lr, ld, ud],
+                        [ud, ur, lr, lu, ud],
+                        [ur, lr, lr, lr, lu],
+                    ],
+
+                    // 7
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ur, lr, lr, ld, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ur, lu],
+                    ],
+
+                    // 8
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ud, rd, lr, ld, ud],
+                        [ud, ur, lr, lu, ud],
+                        [ud, rd, lr, ld, ud],
+                        [ud, ur, lr, lu, ud],
+                        [ur, lr, lr, lr, lu],
+                    ],
+
+                    // 9
+                    [
+                        [rd, lr, lr, lr, ld],
+                        [ud, rd, lr, ld, ud],
+                        [ud, ur, lr, lu, ud],
+                        [ur, lr, lr, ld, ud],
+                        [lr, lr, ll, ud, ud],
+                        [lr, lr, ll, ur, lu],
+                    ]
+                ];       
+            }());
+
+            var transitions = {
+
+                // all function
+                simultaneous: (function() {
+                    var patall = [];
+                    var l = new Array(clockCount);
+                    var len = l.length;
+                    for(var i = 0; i < len; i++) {
+                        l[i] = i;
+                    }
+                    patall.push(l);
+                    return function() { return patall; }
+                }()),
+
+                // up function
+                up: (function() {
+                    var patu = [];
+                    for(var r = rows-1; r >= 0; r--){
+                        var idx = new Array(columns);
+                        for(c=0; c < columns; c++) {
+                            idx[c] = r*columns + c;
+                        }
+                        patu[(rows-1)-r] = idx;
+                    }
+                    return function() { return patu; }
+                }()),
+
+                // right function
+                right: (function() {
+                    var patr = [];
+                    for(var c=0; c < columns; c++) {
+                        var idx = new Array(rows);
+                        for(r=0; r < rows; r++) {
+                            idx[r] = r*columns + c;
+                        }
+                        patr[c] = idx;
+                    }
+                    return function() { return patr; }
+                }()),
+
+                // down function
+                down: (function() {
+                    var patd = [];
+                    for(var r = 0; r < rows; r++){
+                        var idx = new Array(columns);
+                        for(var c=0; c < columns; c++) {
+                            idx[c] = r*columns + c;
+                        }
+                        patd[r] = idx;
+                    }
+                    return function() { return patd; }
+                }()),
+
+                // left function
+                left: (function() {
+                    var patl = [];
+                    for(var c=columns-1; c >= 0; c--) {
+                        var idx = new Array(rows);
+                        for(var r=0; r < rows; r++) {
+                            idx[r] = r*columns + c;
+                        }
+                        patl[(columns-1)-c] = idx;
+                    }                
+                    return function() { return patl; }
+                }()),
+
+                // down-left to up-right function
+                dlur: (function() {
+                    var patdlur = [];
+                    var s = [(rows-1)*columns]
+                    var len = s.length;                 
+                    while(len) {                        
+                        patdlur.push(s.slice(0));
+                        var doup = true;
+                        for(var i=0; i < len; i++) {
+                            var v = s[i];
+                            var u = v - columns;
+                            var r = v + 1;
+                            if(doup && u >= 0) {
+                                s.push(u);
+                                doup = false;
+                            }
+                            if(!doup && (r % columns) > 0) {
+                                s.push(r);
+                            }                            
+                        }
+                        s = s.slice(len);
+                        len = s.length;
+                    }
+                    return function() { return patdlur; }
+                }()),
+
+                // up-left to down-right function
+                uldr: (function() {
+                    var patuldr = [];
+                    var s = [0];                    
+                    var len = s.length;
+                    while(len) {                        
+                        patuldr.push(s.slice(0));
+                        var dodown = true;
+                        for(var i=0; i < len; i++) {
+                            var v = s[i];
+                            var r = v + 1;
+                            var d = v + columns;
+                            if(dodown && d < clockCount) {
+                                s.push(d);
+                                dodown = false;
+                            }
+                            if(!dodown && (r % columns > 0)) {
+                                s.push(r);
+                            }
+                        }
+                        s = s.slice(len);
+                        len = s.length;
+                    }            
+                    return function() { return patuldr; }
+                }()),
+
+                //up-right to down-left function
+                urdl: (function() {
+                    var paturdl = [];
+                    var s = [columns - 1];                    
+                    var len = s.length;
+                    while(len) {
+                        paturdl.push(s.slice(0));
+                        var dodown = true;
+                        for(var i = 0; i < len; i++) {
+                            var v = s[i];
+                            var d = v + columns;
+                            var l = v - 1;
+                            if(dodown && d < clockCount) {
+                                s.push(d);
+                                dodown = false;
+                            }
+                            if((!dodown) && (l >= 0) && ((l % columns) < (columns - 1))) {
+                                s.push(l);
+                            }
+                        }
+                        s = s.slice(len);
+                        len = s.length;
+                    }
+                    return function() { return paturdl; }
+                }()),
+
+                // down-right to up-left function
+                drul: (function() {
+                    var patdrul = [];                
+                    var s = [clockCount - 1];
+                    var len = s.length;
+                    while(len) {
+                        patdrul.push(s.slice(0));
+                        var doup = true;
+                        for(var i = 0; i < len; i++) {
+                            var v = s[i];
+                            var u = v - columns;
+                            var l = v - 1;
+                            if(doup && u >= 0) {
+                                s.push(u);
+                                doup = false;
+                            }
+                            if(!doup && (l >= 0) && ((l % columns) < (columns - 1))) {
+                                s.push(l);
+                            }
+                        }
+                        s = s.slice(len);
+                        len = s.length;
+                    }
+                    return function() { return patdrul; }
+                }())            
+
+                // random function
+                // randomSingle: function() {
+                //     var r = [];
+                //     var l = clk_data.length;
+                //     for(var i=0; i < l; ++i) {
+                //         r[i] = [i];
+                //     }
+                //     return fisher_yates(r);
+                // }
+            };
+
+            function getRandomTransition() {
+                var keys = Object.keys(transitions);
+                var i = Math.floor(Math.random() * keys.length);
+                var key = keys[i];
+                return transitions[key];
+            }
+
+            function setHandPosition(hand, position, direction, rate, callback) {
+                hand.target = position;
+                hand.isSpinning = false;
+                hand.direction = direction ? direction : hand.direction;
+                hand.rate = rate ? rate : hand.rate;
+                hand.animCompleteCallback = callback;
+            }
+
+            function setHandSpin(hand, direction, rate) {
+                hand.isSpinning = true;
+                hand.direction = direction;
+                hand.rate = rate;
+            }            
+
+            function pattern_randomSpin(clock, min, max, direction, callback) {                
+                var hdir = undefined, 
+                mdir = undefined;
+            
+                if(direction) {
+                    if(Array.isArray(direction)) {
+                        hdir = direction[0];
+                        mdir = direction[1];
+                    } else {
+                        hdir = mdir = direction;
+                    }
+                } else {                    
+                    var spinDir = Math.floor(Math.random() * 4.);
+                    switch(spinDir) {
+                        case 0:
+                            hdir = mdir = directions.right;
+                            break;
+                        case 1:
+                            hdir = mdir = directions.left;
+                            break;
+                        case 2:
+                            hdir = directions.right;
+                            mdir = directions.left;
+                            break;
+                        case 3:
+                            hdir = directions.left;
+                            mdir = directions.right;
+                            break;
+                    }
+                }
+
+
+
+                var rdiff = max - min;
+                var hrate = min + Math.random() * rdiff, 
+                    mrate = min + Math.random() * rdiff;
+
+                setHandSpin(clock.hhand, hdir, hrate);
+                setHandSpin(clock.mhand, mdir, mrate);
+
+                callback(clock.hhand);
+                callback(clock.mhand);                
+            }  
+
+            function pattern_setPosition(clock, position, direction, callback) {
+                setHandPosition(clock.hhand, position[0], direction, null, callback);
+                setHandPosition(clock.mhand, position[1], direction, null, callback);             
+            }
+
+            var pattern_time = (function(){
+                var startColumn = (columns - 22) / 2;
+                var startRow = (rows - 6) / 2;
+                var startIndex = startRow * columns + startColumn;
+
+                var endColumn = startColumn + 22 - 1;
+                var endRow = startRow + 6 - 1;
+                var lastIndex = endRow * columns + endColumn;
+
+                var time_function = function() {
+                    var currentTime = new Date();
+                    var currentHour = currentTime.getHours();
+                    var currentMinute = currentTime.getMinutes();
+
+                    var hourHigh = Math.floor(currentHour / 10);
+                    var hourLow = currentHour - (hourHigh * 10);
+                    var minHigh = Math.floor(currentMinute / 10);
+                    var minLow = currentMinute - (minHigh * 10);
+
+                    var digits = [hourHigh, hourLow, minHigh, minLow];
+
+                    return function(clock, callback) {
+                        var idx = clock.id;
+                        var position;
+                        var c = idx % columns;
+                        var r = Math.floor(idx / columns);
+
+                        if((c >= startColumn && c <= endColumn) && (r >= startRow && r <= endRow)) {
+                            var local_c = c - startColumn;
+                            var local_r = r - startRow;
+                            var d, digit_c;
+                            if(local_c < 5) {
+                                d = numberPositions[digits[0]];                                
+                                digit_c = local_c % 5;
+                                position = d[local_r][digit_c];
+                            } else if(local_c < 10) {
+                                d = numberPositions[digits[1]];
+                                digit_c = local_c % 5;
+                                position = d[local_r][digit_c];
+                            } else if(local_c < 12) {
+                                if(local_c == 10) {
+                                    switch(local_r) {
+                                        case 0: position = positions.lr; break;
+                                        case 1: position = positions.rd; break;                                        
+                                        case 2: position = positions.ur; break;
+                                        case 3: position = positions.rd; break;
+                                        case 4: position = positions.ur; break;
+                                        case 5: position = positions.lr; break;
+                                    }
+                                } else if (local_c == 11) {
+                                    switch(local_r) {
+                                        case 0: position = positions.lr; break;
+                                        case 1: position = positions.ld; break;
+                                        case 2: position = positions.lu; break;
+                                        case 3: position = positions.ld; break;
+                                        case 4: position = positions.lu; break;
+                                        case 5: position = positions.lr; break;
+                                    }
+                                }
+                            } else if(local_c < 17) {
+                                d = numberPositions[digits[2]];
+                                digit_c = (local_c - 2) % 5;
+                                position = d[local_r][digit_c];
+                            } else if(local_c < 22) {
+                                d = numberPositions[digits[3]];
+                                digit_c = (local_c - 2) % 5;
+                                position = d[local_r][digit_c];
+                            }
+                        } else {
+                            if(c == 0) {
+                                position = positions.rr;
+                            } else if (c == columns-1) {
+                                position = positions.ll;
+                            } else {
+                                position = positions.lr;
+                            }
+                        }
+
+                        pattern_setPosition(clock, position, null, callback);
+                    }
+                }
+
+                return time_function;
+            }());
+
+            function applyPattern(pattern, transition, interval, callback) {
+                var i = 0;
+                var completed = 0;                
+
+                var countCallback = function(hnd) {
+                    completed++;
+                    if(completed == handCount && callback) {
+                        callback();
+                    }
+                }
+
+                var applyTransitionBlock = function() {
+                    var tblock = transition[i];
+                    i++;                    
+                    for(var j=0; j < tblock.length; j++) {
+                        var clock = clk_data[tblock[j]];
+                        pattern(clock, countCallback)
+                    }          
+                    if(i < transition.length) {          
+                        d3.timer(applyTransitionBlock, interval());
+                    }
+                    return true;                  
+                }
+                d3.timer(applyTransitionBlock);
+            }            
+
+            function loopSequence(sequence, delay) {
+                var slen = sequence.length;
+                var i = -1;
+
+                var delayCallback = function() {
+                    d3.timer(executePattern, delay);
+                    return true;
+                }                
+
+                var executePattern = function() {
+                    i = (i + 1) % slen;
+
+                    var s = sequence[i];
+                    var pattern = s.pattern();
+                    var transition = s.transition();
+                    var interval = s.interval;
+
+                    applyPattern(pattern, transition(), function(){ return interval }, delayCallback);
+                    return true;
+                }
+
+                d3.timer(executePattern);
+            }              
+
+            sequence = [
+                {
+                    pattern: function() {
+                        var p = function(clock, callback) {
+                            return pattern_randomSpin(clock, 180, 450, directions.right, callback);
+                        }
+                        return p;
+                    },
+                    transition: getRandomTransition,
+                    interval: 160,
+                },
+
+                {
+                    pattern: function() {
+                        var validPositions = [
+                        positions.lr, positions.rl, positions.ud, positions.du,
+                        positions.dlur, positions.urdl,
+                        positions.uldr, positions.drul];
+                        var p = Math.floor(Math.random() * validPositions.length);
+                        return function(clock, callback) {
+                            return pattern_setPosition(clock, validPositions[p], null, callback);
+                        };
+                    },
+                    transition: getRandomTransition,
+                    interval: 160,  
+                },
+
+                {
+                    pattern: function() {
+                        var p = function(clock, callback) {
+                            return pattern_randomSpin(clock, 180, 450, directions.right, callback);
+                        }
+                        return p;
+                    },
+                    transition: getRandomTransition,
+                    interval: 160,
+                },
+
+                {
+                    pattern: pattern_time,
+                    transition: getRandomTransition,
+                    interval: 160,
+                }
+            ];   
+
+            loopSequence(sequence, 3000);        
+
+            function applyRotation(data, v, dt) {                
+                return "rotate({angle}, {x}, {y})".format({angle: data.angle, x: data.cx, y: data.cy});
+            }
+
+            d3.timer(function() {
+                //get deltaTime
+                time1 = performance.now();
+                var diff = (time1 - time0);
+                var dt = diff / 1000.;
+                fps.text(Math.round(1000 / diff));
+                time0 = time1;
+
+                hhand.attr("transform", function(d) { 
+                    d.update(dt);
+                    return applyRotation(d, 180., dt);
+                });
+
+                mhand.attr("transform", function(d) { 
+                    d.update(dt);
+                    return applyRotation(d, -90., dt);
+                });                    
+            });
+
+            //]]>
+        </script>
+    </body>
+</html>

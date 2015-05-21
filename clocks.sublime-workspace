@@ -1,0 +1,453 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"half",
+				"halfHandStrokeWidth〔variable〕"
+			],
+			[
+				"getElem",
+				"getElementsByTagName〔function〕"
+			],
+			[
+				"getEl",
+				"getElementsByTagName〔function〕"
+			],
+			[
+				"st",
+				"static_file"
+			],
+			[
+				"template",
+				"template_files_path〔variable〕"
+			],
+			[
+				"Sim",
+				"Simplex2D"
+			],
+			[
+				"hsv",
+				"hsv_to_rgb〔function〕"
+			],
+			[
+				"cos",
+				"cos_interp〔function〕"
+			],
+			[
+				"get",
+				"get1dfColor〔function〕"
+			],
+			[
+				"_leng",
+				"_length_sq_dirty"
+			],
+			[
+				"_len",
+				"_length_dirty"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/venv.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"last_filter": "repl",
+		"selected_items":
+		[
+			[
+				"repl",
+				"SublimeREPL: Python"
+			],
+			[
+				"ss python",
+				"Set Syntax: Python"
+			],
+			[
+				"beau",
+				"HTMLBeautify"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"ss xml",
+				"Set Syntax: XML"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"ss hml",
+				"Set Syntax: HTML"
+			],
+			[
+				"ss ini",
+				"Set Syntax: INI"
+			],
+			[
+				"ss jav",
+				"Set Syntax: Java"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"repl python",
+				"SublimeREPL: Python"
+			],
+			[
+				"re",
+				"SublimeREPL: Python"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 514.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/_Dev/Personal/web/clocks"
+	],
+	"file_history":
+	[
+		"/C/_Dev/Personal/web/clock/index.html",
+		"/C/_Dev/Personal/web/clock/python/test.py",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Local/Microsoft/Windows/INetCache/Content.Outlook/QUN0XFEM/Nunna Kranthi cover letter ID 94143.txt",
+		"/C/_Dev/Personal/web/clock/domanimstresstest.html",
+		"/C/_Dev/Personal/web/clock/pixitest.html",
+		"/C/_Dev/Personal/web/clock/js/glclock.js",
+		"/C/Users/ryan.sheehan.TYLER/Documents/Programmer Questions.txt",
+		"/C/_Dev/Personal/web/clock/js/clock.js",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/test.html",
+		"/C/_Dev/Personal/web/clock/css/main.css",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/servers.txt",
+		"/C/Windows/System32/MsDtc/Trace/msdtcvtr.bat",
+		"/C/Windows/System32/MsDtc/Trace/errortrace.txt",
+		"/C/Odyssey/Production/Binary/Odyssey/Odyssey Site Configuration/Core/CaseManagement/SaveServer/Financial/3006-Case-Financial-Note-Save.xml",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/2. Add_TSGMeridian.sql",
+		"/C/_Dev/Financial/Financial_Refactor/Production/Binary/Odyssey/Odyssey Site Configuration/Core/CaseManagement/CacheDefinitions/Justice/Cases/uCaseType-91.xml",
+		"/C/Odyssey/Production/Binary/Odyssey/Odyssey Site Configuration/Core/CaseManagement/CacheDefinitions/Justice/Cases/uCaseType-91.xml",
+		"/C/_Dev/Financial/Financial_Refactor/Server/Financial/Testing/bin/Debug/DBTestingDump/FR-47_0_New.xml",
+		"/C/_Dev/Financial/Financial_Refactor/Server/Financial/Testing/bin/Debug/DBTestingDump/FR-47_0_Base.xml",
+		"/C/_Dev/Financial/Financial_Refactor/TylerEAF/Models/Financial/Testing.DB.ReportGenerator/bin/Report Generation D/Output/index.html",
+		"/C/_Dev/Financial/Financial_Refactor/TylerEAF/Models/Financial/Testing.DB.ReportGenerator/bin/Debug/Output/index.html",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/temp.html",
+		"/C/Odyssey/Production/Source/Install/Applications/Odyssey Assistant/Odyssey.Client.Assistant.imspre",
+		"/C/Odyssey/Production/Binary/Odyssey/Odyssey Site Configuration/Sites/Sites.xml",
+		"/C/_Dev/Financial/Financial_Refactor/Server/Financial/Testing/bin/Debug/DBTestingDump/FR-135_0_New.xml",
+		"/C/Users/ryan.sheehan.TYLER/Documents/Host.txt",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/eaf tools.txt",
+		"/C/Odyssey/Database/Financial/dbo/Tables/TransDet.imssql",
+		"/C/_Dev/Personal/Python/clphotos/clphotos/server.ini",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/_Dev/Personal/Python/clphotos/clphotos/server/routes_hello.py",
+		"/C/_Dev/Personal/Python/clphotos/clphotos/server/__init__.py",
+		"/C/_Dev/Personal/Python/clphotos/clphotos/server/server.py",
+		"/c/_Dev/Personal/Python/clphotos/test.txt",
+		"/C/Users/ryan.sheehan.TYLER/.gitconfig",
+		"/C/_Dev/Personal/Python/clphotos/requirements.txt",
+		"/C/_Dev/Personal/Python/clphotos/.gitignore",
+		"/C/_Dev/Personal/Python/clphotos/Server/server.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/.gitignore",
+		"/C/_Dev/Personal/Python/perlin/perlin/README.md",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/test.png",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/interpolation.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/color_helpers.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/simplex.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/perlin.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/main.py",
+		"/c/_Dev/Personal/Python/perlin/perlin/lib/site-packages/PIL/Image.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/build.bat",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/User/venv.sublime-build",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/vector.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/test_vector.py",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+		"/C/_Dev/Financial/Financial_Refactor/Server/Financial/packages/SpecFlow.1.9.0/tools/specflow.exe.config",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/testcode.cs",
+		"/C/Program Files/Sublime Text 3/Packages/Python.sublime-package",
+		"/C/_Dev/Financial/Financial_Refactor/TylerEAF/Models/Financial/Entities/Classes/Transaction.cs",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/tests/__init__.py",
+		"/C/_Dev/Personal/Python/perlin/perlin/app/__init__.py",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+		"/C/Users/ryan.sheehan.TYLER/AppData/Roaming/Sublime Text 3/Packages/User/Python.sublime-settings",
+		"/C/_Dev/Personal/Python/cocos2d/circles/app/hello_world.py",
+		"/C/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/MSTest.exe.config",
+		"/C/Users/ryan.sheehan.TYLER/Desktop/cocos2d-0.6.0/cocos2d-0.6.0/samples/hello_world.py"
+	],
+	"find":
+	{
+		"height": 21.0
+	},
+	"find_in_files":
+	{
+		"height": 92.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"(function",
+			"hand_data",
+			">",
+			"</[A-Za-z]*>",
+			"</.*>",
+			"</head>",
+			"</head><body><div class=\"line-gutter-backdrop\"></div><table><tbody><tr><td class=\"line-number\" value=\"1\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"2\"></td><td class=\"line-content\"><span class=\"html-doctype\">&lt;!DOCTYPE html&gt;</span></td></tr><tr><td class=\"line-number\" value=\"3\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;meta <span class=\"html-attribute-name\">charset</span>=\"<span class=\"html-attribute-value\">utf-8</span>\"&gt;</span></td></tr><tr><td class=\"line-number\" value=\"4\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;title&gt;</span>SVG Swarm<span class=\"html-tag\">&lt;/title&gt;</span></td></tr><tr><td class=\"line-number\" value=\"5\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;style&gt;</span></td></tr><tr><td class=\"line-number\" value=\"6\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"7\"></td><td class=\"line-content\">svg {</td></tr><tr><td class=\"line-number\" value=\"8\"></td><td class=\"line-content\">  position: absolute;</td></tr><tr><td class=\"line-number\" value=\"9\"></td><td class=\"line-content\">  top: 0;</td></tr><tr><td class=\"line-number\" value=\"10\"></td><td class=\"line-content\">}</td></tr><tr><td class=\"line-number\" value=\"11\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"12\"></td><td class=\"line-content\">circle {</td></tr><tr><td class=\"line-number\" value=\"13\"></td><td class=\"line-content\">  fill: steelblue;</td></tr><tr><td class=\"line-number\" value=\"14\"></td><td class=\"line-content\">  stroke: #666;</td></tr><tr><td class=\"line-number\" value=\"15\"></td><td class=\"line-content\">  stroke-width: 1.5px;</td></tr><tr><td class=\"line-number\" value=\"16\"></td><td class=\"line-content\">}</td></tr><tr><td class=\"line-number\" value=\"17\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"18\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;/style&gt;</span></td></tr><tr><td class=\"line-number\" value=\"19\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;div <span class=\"html-attribute-name\">id</span>=\"<span class=\"html-attribute-value\">fps</span>\"&gt;</span>FPS: <span class=\"html-tag\">&lt;span&gt;</span>?<span class=\"html-tag\">&lt;/span&gt;</span><span class=\"html-tag\">&lt;/div&gt;</span></td></tr><tr><td class=\"line-number\" value=\"20\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;script <span class=\"html-attribute-name\">src</span>=\"<a class=\"html-attribute-value html-resource-link\" target=\"_blank\" href=\"http://d3js.org/d3.v2.min.js?2.9.1\">http://d3js.org/d3.v2.min.js?2.9.1</a>\"&gt;</span><span class=\"html-tag\">&lt;/script&gt;</span></td></tr><tr><td class=\"line-number\" value=\"21\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;script&gt;</span></td></tr><tr><td class=\"line-number\" value=\"22\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"23\"></td><td class=\"line-content\">var data = d3.range(500).map(function() {</td></tr><tr><td class=\"line-number\" value=\"24\"></td><td class=\"line-content\">  return {xloc: 0, yloc: 0, xvel: 0, yvel: 0};</td></tr><tr><td class=\"line-number\" value=\"25\"></td><td class=\"line-content\">});</td></tr><tr><td class=\"line-number\" value=\"26\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"27\"></td><td class=\"line-content\">var width = 960,</td></tr><tr><td class=\"line-number\" value=\"28\"></td><td class=\"line-content\">    height = 500;</td></tr><tr><td class=\"line-number\" value=\"29\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"30\"></td><td class=\"line-content\">var x = d3.scale.linear()</td></tr><tr><td class=\"line-number\" value=\"31\"></td><td class=\"line-content\">    .domain([-5, 5])</td></tr><tr><td class=\"line-number\" value=\"32\"></td><td class=\"line-content\">    .range([0, width]);</td></tr><tr><td class=\"line-number\" value=\"33\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"34\"></td><td class=\"line-content\">var y = d3.scale.linear()</td></tr><tr><td class=\"line-number\" value=\"35\"></td><td class=\"line-content\">    .domain([-5, 5])</td></tr><tr><td class=\"line-number\" value=\"36\"></td><td class=\"line-content\">    .range([0, height]);</td></tr><tr><td class=\"line-number\" value=\"37\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"38\"></td><td class=\"line-content\">var time0 = Date.now(),</td></tr><tr><td class=\"line-number\" value=\"39\"></td><td class=\"line-content\">    time1;</td></tr><tr><td class=\"line-number\" value=\"40\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"41\"></td><td class=\"line-content\">var fps = d3.select(\"#fps span\");</td></tr><tr><td class=\"line-number\" value=\"42\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"43\"></td><td class=\"line-content\">var svg = d3.select(\"body\").append(\"svg\")</td></tr><tr><td class=\"line-number\" value=\"44\"></td><td class=\"line-content\">    .attr(\"width\", width)</td></tr><tr><td class=\"line-number\" value=\"45\"></td><td class=\"line-content\">    .attr(\"height\", height);</td></tr><tr><td class=\"line-number\" value=\"46\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"47\"></td><td class=\"line-content\">var circle = svg.selectAll(\"circle\")</td></tr><tr><td class=\"line-number\" value=\"48\"></td><td class=\"line-content\">    .data(data)</td></tr><tr><td class=\"line-number\" value=\"49\"></td><td class=\"line-content\">  .enter().append(\"circle\")</td></tr><tr><td class=\"line-number\" value=\"50\"></td><td class=\"line-content\">    .attr(\"cx\", 10)</td></tr><tr><td class=\"line-number\" value=\"51\"></td><td class=\"line-content\">    .attr(\"cy\", 10)</td></tr><tr><td class=\"line-number\" value=\"52\"></td><td class=\"line-content\">    .attr(\"r\", 1);</td></tr><tr><td class=\"line-number\" value=\"53\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"54\"></td><td class=\"line-content\">d3.timer(function() {</td></tr><tr><td class=\"line-number\" value=\"55\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"56\"></td><td class=\"line-content\">  data.forEach(function(d) {</td></tr><tr><td class=\"line-number\" value=\"57\"></td><td class=\"line-content\">    d.xloc += d.xvel;</td></tr><tr><td class=\"line-number\" value=\"58\"></td><td class=\"line-content\">    d.yloc += d.yvel;</td></tr><tr><td class=\"line-number\" value=\"59\"></td><td class=\"line-content\">    d.xvel += 0.04 * (Math.random() - .5) - 0.05 * d.xvel - 0.0005 * d.xloc;</td></tr><tr><td class=\"line-number\" value=\"60\"></td><td class=\"line-content\">    d.yvel += 0.04 * (Math.random() - .5) - 0.05 * d.yvel - 0.0005 * d.yloc;</td></tr><tr><td class=\"line-number\" value=\"61\"></td><td class=\"line-content\">  });</td></tr><tr><td class=\"line-number\" value=\"62\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"63\"></td><td class=\"line-content\">  circle</td></tr><tr><td class=\"line-number\" value=\"64\"></td><td class=\"line-content\">      .attr(\"transform\", function(d) { return \"translate(\" + x(d.xloc) + \",\" + y(d.yloc) + \")\"; })</td></tr><tr><td class=\"line-number\" value=\"65\"></td><td class=\"line-content\">      .attr(\"r\", function(d) { return Math.min(1 + 1000 * Math.abs(d.xvel * d.yvel), 10); });</td></tr><tr><td class=\"line-number\" value=\"66\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"67\"></td><td class=\"line-content\">  time1 = Date.now();</td></tr><tr><td class=\"line-number\" value=\"68\"></td><td class=\"line-content\">  fps.text(Math.round(1000 / (time1 - time0)));</td></tr><tr><td class=\"line-number\" value=\"69\"></td><td class=\"line-content\">  time0 = time1;</td></tr><tr><td class=\"line-number\" value=\"70\"></td><td class=\"line-content\">});</td></tr><tr><td class=\"line-number\" value=\"71\"></td><td class=\"line-content\"><br></td></tr><tr><td class=\"line-number\" value=\"72\"></td><td class=\"line-content\"><span class=\"html-tag\">&lt;/script&gt;</span></td></tr><tr><td class=\"line-number\" value=\"73\"></td><td class=\"line-content\"><span class=\"html-end-of-file\"></span></td></tr></tbody></table></body></html>",
+			"clkBdytexture",
+			"tracefmt",
+			"TraceFmt",
+			"&gt;",
+			"&lt;",
+			"                 ",
+			"                ",
+			"               ",
+			"              ",
+			"             ",
+			"            ",
+			"           ",
+			"          ",
+			"         ",
+			"        ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"   ",
+			"  ",
+			"0",
+			",",
+			"new ",
+			"random",
+			"twopi",
+			"pi",
+			"twopi",
+			"target",
+			"current",
+			"Is",
+			"Vector3",
+			"Vector",
+			"Vector._approx_eq",
+			"Vector.approx_eq",
+			".approx_eq",
+			"approx_eq",
+			"_approx_eq",
+			"zero",
+			"self._dirty = True",
+			".z",
+			".y",
+			".x"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Vector2",
+			"Vector3",
+			"_approx_eq",
+			"._approx_eq",
+			"approx_eq",
+			"self._makeDirty()",
+			"._z",
+			"._y",
+			"._x"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 21.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 519.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "clocks.sublime-project",
+	"replace":
+	{
+		"height": 38.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 254.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

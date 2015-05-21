@@ -877,12 +877,21 @@
                 return "rotate({angle}, {x}, {y})".format({angle: data.angle, x: data.cx, y: data.cy});
             }
 
+            var diff = 1000;
+            function updateFPS() {    
+                fps.text(Math.round(1000 / diff));
+                d3.timer(updateFPS, 500);
+                return true;
+            };
+
+            d3.timer(updateFPS);
+
             d3.timer(function() {
                 //get deltaTime
                 time1 = performance.now();
-                var diff = (time1 - time0);
+                diff = (time1 - time0);
                 var dt = diff / 1000.;
-                fps.text(Math.round(1000 / diff));
+                //fps.text(Math.round(1000 / diff));
                 time0 = time1;
 
                 hhand.attr("transform", function(d) { 
